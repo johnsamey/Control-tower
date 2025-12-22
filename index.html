@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="The Grocer - Retail Inventory Management System for managing stock across multiple branches and e-commerce platforms">
+    <title>The Grocer - Inventory Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>🛒 The Grocer - Inventory Platform</h1>
+                <p class="header-subtitle">Retail Inventory Management System</p>
+            </div>
+            <div class="sync-status">
+                <div class="status-dot"></div>
+                <span>System Online</span>
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <aside class="sidebar">
+                <nav>
+                    <div class="nav-item active" data-section="dashboard">
+                        📊 Dashboard
+                    </div>
+                    <div class="nav-item" data-section="rules">
+                        ⚙️ Capping Rules
+                    </div>
+                    <div class="nav-item" data-section="upload">
+                        📤 Upload Files
+                    </div>
+                    <div class="nav-item" data-section="processing">
+                        🔄 Processing
+                    </div>
+                    <div class="nav-item" data-section="logs">
+                        📋 Audit Logs
+                    </div>
+                    <div class="nav-item" data-section="branches">
+                        🏪 Branches
+                    </div>
+                </nav>
+            </aside>
+
+            <main class="content-area">
+                <!-- Dashboard Section -->
+                <section class="section active" id="dashboard">
+                    <div class="section-header">
+                        <h2 class="section-title">Dashboard Overview</h2>
+                        <p class="section-subtitle">Real-time system metrics and status</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">847</div>
+                            <div class="stat-label">Active Items</div>
+                        </div>
+                        <div class="stat-card stat-card-green">
+                            <div class="stat-value">12</div>
+                            <div class="stat-label">Active Branches</div>
+                        </div>
+                        <div class="stat-card stat-card-orange">
+                            <div class="stat-value">64</div>
+                            <div class="stat-label">Active Rules</div>
+                        </div>
+                        <div class="stat-card stat-card-red">
+                            <div class="stat-value">2h</div>
+                            <div class="stat-label">Next Sync</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Recent Processing Jobs</h3>
+                        <table class="rules-table">
+                            <thead>
+                                <tr>
+                                    <th>Job ID</th>
+                                    <th>Branch</th>
+                                    <th>Items Processed</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#JOB-1234</td>
+                                    <td>Garden 8</td>
+                                    <td>847</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>2 hours ago</td>
+                                </tr>
+                                <tr>
+                                    <td>#JOB-1233</td>
+                                    <td>Lake View</td>
+                                    <td>923</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>3 hours ago</td>
+                                </tr>
+                                <tr>
+                                    <td>#JOB-1232</td>
+                                    <td>Maadi</td>
+                                    <td>756</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                    <td>4 hours ago</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Capping Rules Section -->
+                <section class="section" id="rules">
+                    <div class="section-header">
+                        <h2 class="section-title">Capping Rules Management</h2>
+                        <p class="section-subtitle">Configure hierarchical thresholds for inventory availability</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Add New Capping Rule</h3>
+                        <form id="ruleForm" class="rule-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="ruleLevel">Classification Level</label>
+                                    <select id="ruleLevel">
+                                        <option value="MacroCategory">MacroCategory</option>
+                                        <option value="Category">Category</option>
+                                        <option value="MicroCategory">MicroCategory</option>
+                                        <option value="Department">Department</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ruleThreshold">Capping Threshold</label>
+                                    <input type="number" id="ruleThreshold" placeholder="e.g., 10" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="rulePriority">Priority (1=Highest)</label>
+                                    <input type="number" id="rulePriority" value="1" min="1" max="4">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic dropdown container -->
+                            <div id="ruleValueContainer" class="form-grid" style="margin-top: 20px;">
+                                <!-- Dropdowns will be dynamically inserted here -->
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Add Rule</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Active Capping Rules</h3>
+                        <table class="rules-table" id="rulesTable">
+                            <thead>
+                                <tr>
+                                    <th>Level</th>
+                                    <th>Value</th>
+                                    <th>Threshold</th>
+                                    <th>Priority</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge badge-macro">MacroCategory</span></td>
+                                    <td>Fresh</td>
+                                    <td>10</td>
+                                    <td>
+                                        <div class="priority-indicator">
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar"></div>
+                                            <div class="priority-bar"></div>
+                                            <div class="priority-bar"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteRule(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-category">Category</span></td>
+                                    <td>Fresh > Dairy</td>
+                                    <td>7</td>
+                                    <td>
+                                        <div class="priority-indicator">
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar"></div>
+                                            <div class="priority-bar"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteRule(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-micro">MicroCategory</span></td>
+                                    <td>Fresh > Dairy > Cheese</td>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="priority-indicator">
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteRule(this)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge badge-department">Department</span></td>
+                                    <td>Fresh > Dairy > Cheese > Imported Cheese</td>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="priority-indicator">
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar active"></div>
+                                            <div class="priority-bar active"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteRule(this)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Upload Section -->
+                <section class="section" id="upload">
+                    <div class="section-header">
+                        <h2 class="section-title">Upload Inventory Files</h2>
+                        <p class="section-subtitle">Upload Excel files from branches for processing</p>
+                    </div>
+
+                    <div class="card">
+                        <label>Select Branch</label>
+                        <div class="branch-selector" id="branchSelector">
+                            <div class="branch-chip selected" data-branch="Garden 8">Garden 8</div>
+                            <div class="branch-chip" data-branch="Lake View">Lake View</div>
+                            <div class="branch-chip" data-branch="Maadi">Maadi</div>
+                            <div class="branch-chip" data-branch="Nasr City">Nasr City</div>
+                            <div class="branch-chip" data-branch="Heliopolis">Heliopolis</div>
+                        </div>
+                    </div>
+
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📁</div>
+                        <h3>Drop Excel file here or click to browse</h3>
+                        <p class="upload-subtitle">Supported formats: .xlsx, .xls</p>
+                        <input type="file" id="fileInput" accept=".xlsx,.xls" multiple>
+                    </div>
+
+                    <div class="card" id="uploadedFiles" style="display: none;">
+                        <h3 class="card-title">Uploaded Files</h3>
+                        <div id="filesList"></div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="processFiles()">Process Files</button>
+                            <button class="btn btn-secondary" onclick="clearFiles()">Clear All</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Processing Section -->
+                <section class="section" id="processing">
+                    <div class="section-header">
+                        <h2 class="section-title">Data Processing</h2>
+                        <p class="section-subtitle">Transform and export inventory data</p>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Processing Configuration</h3>
+                        <div class="form-group">
+                            <label>Export Destination</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked> Instashop
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" checked> Talabat
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="scheduleType">Schedule Type</label>
+                            <select id="scheduleType">
+                                <option>Hourly (Every Hour)</option>
+                                <option>Custom Interval</option>
+                                <option>Manual Only</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-success" onclick="startProcessing()">Start Manual Processing</button>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Processing History</h3>
+                        <table class="rules-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Branch</th>
+                                    <th>Items</th>
+                                    <th>Rules Applied</th>
+                                    <th>Export Status</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2024-12-22 14:00</td>
+                                    <td>Garden 8</td>
+                                    <td>847</td>
+                                    <td>23</td>
+                                    <td><span class="badge badge-success">Success</span></td>
+                                    <td><button class="btn btn-primary btn-sm">📥 Download</button></td>
+                                </tr>
+                                <tr>
+                                    <td>2024-12-22 13:00</td>
+                                    <td>Lake View</td>
+                                    <td>923</td>
+                                    <td>23</td>
+                                    <td><span class="badge badge-success">Success</span></td>
+                                    <td><button class="btn btn-primary btn-sm">📥 Download</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Logs Section -->
+                <section class="section" id="logs">
+                    <div class="section-header">
+                        <h2 class="section-title">Audit Logs</h2>
+                        <p class="section-subtitle">System activity and rule change history</p>
+                    </div>
+
+                    <div id="logsContainer">
+                        <div class="log-entry">
+                            <div class="log-time">2024-12-22 14:32:15</div>
+                            <div class="log-message"><strong>Rule Added:</strong> Department "Imported Cheese" with
+                                threshold 3</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="log-time">2024-12-22 14:00:00</div>
+                            <div class="log-message"><strong>Processing Complete:</strong> Garden 8 - 847 items
+                                processed, 23 rules applied</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="log-time">2024-12-22 13:45:22</div>
+                            <div class="log-message"><strong>File Uploaded:</strong> garden8_inventory.xlsx by
+                                user@thegrocer.com</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="log-time">2024-12-22 13:00:00</div>
+                            <div class="log-message"><strong>Processing Complete:</strong> Lake View - 923 items
+                                processed, 23 rules applied</div>
+                        </div>
+                        <div class="log-entry">
+                            <div class="log-time">2024-12-22 12:15:08</div>
+                            <div class="log-message"><strong>Rule Modified:</strong> MicroCategory "Cheese" threshold
+                                changed from 8 to 5</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Branches Section -->
+                <section class="section" id="branches">
+                    <div class="section-header">
+                        <h2 class="section-title">Branch Management</h2>
+                        <p class="section-subtitle">Configure and monitor branch-specific settings</p>
+                    </div>
+
+                    <div class="branches-grid">
+                        <div class="card branch-card">
+                            <h3>🏪 Garden 8</h3>
+                            <p class="branch-info">Last sync: 2 hours ago</p>
+                            <p><strong>Active Items:</strong> 847</p>
+                            <p><strong>Status:</strong> <span class="badge badge-success">Active</span></p>
+                            <button class="btn btn-primary btn-full">Configure</button>
+                        </div>
+                        <div class="card branch-card">
+                            <h3>🏪 Lake View</h3>
+                            <p class="branch-info">Last sync: 3 hours ago</p>
+                            <p><strong>Active Items:</strong> 923</p>
+                            <p><strong>Status:</strong> <span class="badge badge-success">Active</span></p>
+                            <button class="btn btn-primary btn-full">Configure</button>
+                        </div>
+                        <div class="card branch-card">
+                            <h3>🏪 Maadi</h3>
+                            <p class="branch-info">Last sync: 4 hours ago</p>
+                            <p><strong>Active Items:</strong> 756</p>
+                            <p><strong>Status:</strong> <span class="badge badge-success">Active</span></p>
+                            <button class="btn btn-primary btn-full">Configure</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
