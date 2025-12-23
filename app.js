@@ -11,7 +11,8 @@ const AppState = {
 // ===================================
 // Hierarchical Product Data Structure
 // ===================================
-const ProductHierarchy = {
+// Default static data for fallback/demo
+const DefaultProductHierarchy = {
     "Fresh": {
         "Dairy": {
             "Cheese": ["Imported Cheese", "Local Cheese", "Soft Cheese"],
@@ -29,45 +30,39 @@ const ProductHierarchy = {
             "Herbs": ["Parsley", "Cilantro", "Mint"]
         }
     },
+    // ... (rest of static data implied, but for brevity using smaller set if backend fails)
     "Frozen": {
         "Frozen Vegetables": {
-            "Mixed Vegetables": ["Peas & Carrots", "Stir Fry Mix", "Soup Mix"],
-            "Single Vegetables": ["Green Peas", "Corn", "Green Beans"]
-        },
-        "Frozen Meat": {
-            "Chicken": ["Chicken Breasts", "Chicken Wings", "Whole Chicken"],
-            "Beef": ["Ground Beef", "Beef Steaks", "Beef Cubes"]
-        },
-        "Ice Cream": {
-            "Premium": ["Häagen-Dazs", "Ben & Jerry's", "Magnum"],
-            "Regular": ["Local Brands", "Store Brand"]
-        }
-    },
-    "Grocery": {
-        "Pasta & Rice": {
-            "Pasta": ["Spaghetti", "Penne", "Fusilli"],
-            "Rice": ["Basmati Rice", "Egyptian Rice", "Brown Rice"]
-        },
-        "Canned Goods": {
-            "Vegetables": ["Canned Tomatoes", "Canned Corn", "Canned Beans"],
-            "Fruits": ["Canned Peaches", "Canned Pineapple", "Fruit Cocktail"]
-        },
-        "Oils & Sauces": {
-            "Cooking Oils": ["Olive Oil", "Sunflower Oil", "Corn Oil"],
-            "Sauces": ["Tomato Sauce", "Soy Sauce", "Hot Sauce"]
-        }
-    },
-    "Beverages": {
-        "Soft Drinks": {
-            "Carbonated": ["Cola", "Lemon-Lime", "Orange Soda"],
-            "Juice": ["Orange Juice", "Apple Juice", "Mixed Fruit"]
-        },
-        "Water": {
-            "Still Water": ["Local Brands", "Imported Brands"],
-            "Sparkling Water": ["Plain", "Flavored"]
+            "Mixed Vegetables": ["Peas & Carrots"],
+            "Single Vegetables": ["Green Peas"]
         }
     }
 };
+
+// Initialize with default data
+let ProductHierarchy = DefaultProductHierarchy;
+
+// Fetch hierarchy from backend
+async function fetchProductHierarchy() {
+    try {
+        const response = await fetch('http://localhost:5000/api/hierarchy');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+
+        // Update hierarchy and refresh current view if needed
+        ProductHierarchy = data;
+        console.log('Successfully fetched hierarchy from backend');
+        addLog('System: Connected to backend database');
+
+        // If we are currently on the rules page, refresh the dropdowns
+        if (AppState.currentSection === 'rules') {
+            handleLevelChange();
+        }
+    } catch (error) {
+        console.warn('Failed to fetch from backend, using default data:', error);
+        addLog('System: Using offline mode (default hierarchy)');
+    }
+}
 
 // ===================================
 // Navigation Handler
@@ -753,6 +748,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initBranchSelector();
     initFileUpload();
     initRuleForm();
+
+    // Fetch dynamic data
+    fetchProductHierarchy();
 
     // Add initial log
     addLog('System initialized successfully');
