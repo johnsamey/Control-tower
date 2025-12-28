@@ -45,7 +45,7 @@ let ProductHierarchy = DefaultProductHierarchy;
 // Fetch hierarchy from backend
 async function fetchProductHierarchy() {
     try {
-        const response = await fetch('http://localhost:5000/api/hierarchy');
+        const response = await fetch('http://localhost:5273/api/hierarchy');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
 
