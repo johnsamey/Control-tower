@@ -46,10 +46,10 @@ From your local machine:
 
 ```bash
 # Using SCP
-scp -r dist/frontend-angular/browser/* user@your-server:/var/www/control-tower/
+scp -r dist/frontend-angular/browser/* user@your-server:/home/ubuntu/Control-tower/frontend-angular/dist/frontend-angular/browser/
 
 # Or using rsync (recommended)
-rsync -avz --delete dist/frontend-angular/browser/ user@your-server:/var/www/control-tower/
+rsync -avz --delete dist/frontend-angular/browser/ user@your-server:/home/ubuntu/Control-tower/frontend-angular/dist/frontend-angular/browser/
 ```
 
 ### 4. Configure Nginx
@@ -144,7 +144,7 @@ cd frontend-angular
 npm run build -- --configuration=production
 
 # Upload to server
-rsync -avz --delete dist/frontend-angular/browser/ user@your-server:/var/www/control-tower/
+rsync -avz --delete dist/frontend-angular/browser/ user@your-server:/home/ubuntu/Control-tower/frontend-angular/dist/frontend-angular/browser/
 ```
 
 ### Update Backend:

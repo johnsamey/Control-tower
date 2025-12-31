@@ -24,11 +24,14 @@ export interface CappingRule {
   createdAt: string;
 }
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class HierarchyService {
-  private apiUrl = 'http://localhost:5273/api/hierarchy';
+  private apiUrl = `${environment.apiUrl}/hierarchy`;
+
 
   hierarchy = signal<ProductHierarchy | null>(null);
   rules = signal<CappingRule[]>([]);
