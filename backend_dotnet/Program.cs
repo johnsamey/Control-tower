@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 // Add dependency injection
 builder.Services.AddScoped<IHierarchyRepository, HierarchyRepository>();
 builder.Services.AddScoped<IHierarchyService, HierarchyService>();
+builder.Services.AddScoped<IInventoryUploadService, InventoryUploadService>();
 
 // Configure CORS
 builder.Services.AddCors(options =>
