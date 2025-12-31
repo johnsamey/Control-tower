@@ -1,2 +1,37 @@
-backend_dotnet/bin
-backend_dotnet/obj
+# General
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+*.xlsx
+
+# .NET / C#
+backend_dotnet/bin/
+backend_dotnet/obj/
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+packages/
+*.nupkg
+*.suo
+
+# Node.js / Angular
+frontend-angular/node_modules/
+frontend-angular/dist/
+frontend-angular/.angular/
+frontend-angular/.editorconfig
+frontend-angular/.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
