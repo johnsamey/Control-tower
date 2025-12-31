@@ -10,8 +10,9 @@ public class HierarchyRepository : IHierarchyRepository
     public HierarchyRepository(IConfiguration configuration)
     {
         _connectionString = configuration.GetConnectionString("DefaultConnection") 
-            ?? throw new ArgumentNullException(nameof(configuration));
+            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found in configuration.");
     }
+
 
     public async Task<IEnumerable<HierarchyRow>> GetHierarchyRowsAsync()
     {

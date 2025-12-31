@@ -114,9 +114,24 @@ cd Control-tower
 
 ### 2. Start Backend Container
 
+Create a `.env` file in the root directory to store your database connection string:
+
+```bash
+cd ~/Control-tower
+nano .env
+```
+
+Add your connection string:
+```env
+DB_CONNECTION_STRING="Server=your_server;Database=your_db;User Id=your_user;Password=your_password;TrustServerCertificate=True;"
+```
+
+Then start the container:
+
 ```bash
 docker-compose up -d --build
 ```
+
 
 ### 3. Verify Backend is Running
 
@@ -129,7 +144,7 @@ curl http://localhost:8080/api/hierarchy
 ```
 
 ## Part 5: Verify Everything Works
-
+sudo tail -f /var/log/nginx/error.log
 1. Visit `https://your-domain.com` - should load the Angular app
 2. Check browser console - no errors
 3. Test API calls - should work through Nginx proxy
