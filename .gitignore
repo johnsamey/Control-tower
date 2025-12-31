@@ -25,6 +25,9 @@ backend_dotnet/obj/
 packages/
 *.nupkg
 *.suo
+appsettings.json
+appsettings.Development.json
+
 
 # Node.js / Angular
 frontend-angular/node_modules/
