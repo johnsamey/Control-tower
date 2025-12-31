@@ -1,3 +1,6 @@
+# This file is no longer needed - frontend is served as static files via host Nginx
+# Kept for reference only
+
 # Build Stage
 FROM node:20-alpine as build
 WORKDIR /app

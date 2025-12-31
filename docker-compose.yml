@@ -1,6 +1,6 @@
 services:
   backend:
-    build: 
+    build:
       context: ./backend_dotnet
     container_name: grocer-backend
     restart: always
@@ -9,13 +9,3 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
-
-  frontend:
-    build:
-      context: ./frontend-angular
-    container_name: grocer-frontend
-    restart: always
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
